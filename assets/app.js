@@ -1,31 +1,40 @@
 var app = angular.module('appLearn',[]);
-app.controller('MissatgesController',function($scope,MissatgesService) {
-        MissatgesService.fetch()
-        .success(function(missatges){
-            $scope.missatges = missatges;
+app.controller('ProductesController',function($scope,ProducteService) {
+        ProducteService.fetch()
+        .success(function(productes){
+            $scope.productes = productes;
         })
         .error(function(e){
             console.log(e);
         });
 
-        $scope.afegirMissatge = function() {
-            if ($scope.missatgeBody){
-                MissatgesService.create({
-                    username: "xavigimenez",
-                    body: $scope.missatgeBody
-                }).success(function(missatge) {
-                    $scope.missatges.unshift(missatge);
-                    $scope.missatgeBody = null;
+        $scope.afegirProducte = function() {
+            if ($scope.Codi ||$scope.Nom ||$scope.Seccio||$scope.Preu){
+                ProducteService.create({
+                    Codi: $scope.Codi,
+                    Nom: $scope.Nom,
+                    Seccio: $scope.Seccio,
+                    Preu: $scope.Preu
+                    
+                }).success(function(producte) {
+                    $scope.productes.unshift(producte);
+                    $scope.producteBody = null;
                 });
             }
         };
 });
         
-app.service("MissatgesService", function($http) {
+app.service("ProducteService", function($http) {
     this.fetch = function() {
-        return $http.get("/api/missatges");
+        return $http.get("/api/productes");
     };
-    this.create = function(missatge) {
-        return $http.post("/api/missatges", missatge);
+    this.create = function(producte) {
+        return $http.post("/api/productes", producte);
+    };
+    this.delete = function(Codi) {
+        return $http.delete("/app/productes/"+Codi);
+    };
+    this.update = function(producte) {
+        return $http.put(producte);
     };
 });

@@ -7,7 +7,7 @@ var options = {
 router.use(express.static(__dirname+"/../assets"));
 router.get('/', function(req, res, next) {
     
-    res.sendFile("missatges.html", options);
+    res.sendFile("Producte.html", options);
 });
 
 module.exports = router;
